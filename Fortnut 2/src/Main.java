@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -44,24 +45,26 @@ public class Main {
         System.out.println("you must gather 15 people first");
         System.out.println("lets play");
         System.out.print("\033[H\033[2J");
-        Player player1= new Player();
-        Player player2= new Player();
-        Player player3= new Player();
-        Player player4= new Player();
-        Player player5= new Player();
-        Player player6= new Player();
-        Player player7= new Player();
-        Player player8= new Player();
-        Player player9= new Player();
-        Player player10= new Player();
-        Player player11= new Player();
-        Player player12= new Player();
-        Player player13= new Player();
-        Player player14= new Player();
-        Player player15= new Player();
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        Player player4 = new Player();
+        Player player5 = new Player();
+        Player player6 = new Player();
+        Player player7 = new Player();
+        Player player8 = new Player();
+        Player player9 = new Player();
+        Player player10 = new Player();
+        Player player11 = new Player();
+        Player player12 = new Player();
+        Player player13 = new Player();
+        Player player14 = new Player();
+        Player player15 = new Player();
+        Weapon weapon = new Weapon();
 
-        Player[] Players = {player1,player2,player3,player4,player5,player6,player7,player8,player9,player10,player11,player12,player13,player14,player15};
-        String[] PlayersString = {"player1","player2","player3","player4","player5","player6","player7","player8","player9","player10","player11","player12","player13","player14","player15"};
+
+        Player[] Players = {player1, player2, player3, player4, player5, player6, player7, player8, player9, player10, player11, player12, player13, player14, player15};
+        String[] PlayersString = {"player1", "player2", "player3", "player4", "player5", "player6", "player7", "player8", "player9", "player10", "player11", "player12", "player13", "player14", "player15"};
 
 //        Random rand = new Random();
 
@@ -90,14 +93,10 @@ public class Main {
 //
 //       System.out.println( Player.name(player1) );
         System.out.println("player 1 starts");
-        for (int i =0;i<15;i++) {
+        for (int i = 0; i < 15; i++) {
             Players[i].SetName(PlayersString[i]);
-            Spel.spawnPlayers(Players[i].x,Players[i].y, PlayersString[i]);
+            Spel.spawnPlayers(Players[i].x, Players[i].y, PlayersString[i]);
         }
-
-
-
-
 
 
 //        for (int i = 0; i < 15; i++) {
@@ -106,52 +105,100 @@ public class Main {
 //            }
 //            System.out.println(" ");
 //        }
+        for (int i = 0; i<= map.length; i++){
+
+            if (i >= 10){
+                System.out.print(" "+i);
+
+            }
+            else {
+                System.out.print("  "+i);
+            }
+            if (i == map.length){
+                System.out.println();
+            }
+        }
         for (int i = 0; i < map.length; i++) {
+
+            System.out.print(i);
             System.out.println(Arrays.toString(map[i]));
         }
-        for (int i = 0; i < 1; i++) {
-            System.out.println(Players[i].x+" "+Players[i].y+" "+ PlayersString[i]);
+        int PlayersAlive = Spel.checkforplayersalive(Players);
 
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-        System.out.println("#########################################################");
-        System.out.println("1= vooruit ##############################################");
-        System.out.println("2= rechts ###############################################");
-        System.out.println("3= achteruit ############################################");
-        System.out.println("4= links ################################################");
-        System.out.println("#########################################################");
-        switch (SC.nextInt()){
-            case 1:
-                Spel.deletePlayer(Players[i].x,Players[i].y, PlayersString[i]);
-                Players[i].forward();
-                Spel.checkforbattle(Players[i].x,Players[i].y, PlayersString[i]);
-                Spel.movePlayers(Players[i].x,Players[i].y, PlayersString[i]); 
-                    break;
-            case 2:
-                Spel.deletePlayer(Players[i].x,Players[i].y, PlayersString[i]);
-                Players[i].right();
-                Spel.checkforbattle(Players[i].x,Players[i].y, PlayersString[i]);
-                Spel.movePlayers(Players[i].x,Players[i].y, PlayersString[i]);
-                System.out.println(Players[i].x+" "+Players[i].y+" "+ PlayersString[i]);
-                break;
-            case 3:
-                Spel.deletePlayer(Players[i].x,Players[i].y, PlayersString[i]);
-                Players[i].back();
-                Spel.checkforbattle(Players[i].x,Players[i].y, PlayersString[i]);
-                Spel.movePlayers(Players[i].x,Players[i].y, PlayersString[i]);
-                break;
-            case 4:
-                Spel.deletePlayer(Players[i].x,Players[i].y, PlayersString[i]);
-                Players[i].left();
-                Spel.checkforbattle(Players[i].x,Players[i].y, PlayersString[i]);
-                Spel.movePlayers(Players[i].x,Players[i].y, PlayersString[i]);
-                System.out.println(Players[i].x+" "+Players[i].y+" "+ PlayersString[i]);
+        while (PlayersAlive > 1) {
+            for (int i = 0; i < Players.length; i++) {
+                Random rand = new Random();
 
-                break;
+                int chance = rand.nextInt((100) + 1);
 
-        }
+
+                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                System.out.println("You are here X ="+ Players[i].x + " Y =" + Players[i].y + " And you are " + PlayersString[i]);
+                System.out.println("#########################################################");
+                System.out.println("1= vooruit ##############################################");
+                System.out.println("2= rechts ###############################################");
+                System.out.println("3= achteruit ############################################");
+                System.out.println("4= links ################################################");
+                System.out.println("#########################################################");
+                switch (SC.nextInt()) {
+                    case 1:
+                        Spel.deletePlayer(Players[i].x, Players[i].y, PlayersString[i]);
+                        Players[i].forward();
+                        Spel.checkforbattle(Players[i].x, Players[i].y, Players[i], Players);
+                        Spel.movePlayers(Players[i].x, Players[i].y, PlayersString[i]);
+                        Spel.checkforhousetoloot(Players[i].x,Players[i].y, chance,Players[i],weapon,SC);
+                        break;
+                    case 2:
+                        Spel.deletePlayer(Players[i].x, Players[i].y, PlayersString[i]);
+                        Players[i].right();
+                        Spel.checkforbattle(Players[i].x, Players[i].y, Players[i], Players);
+                        Spel.movePlayers(Players[i].x, Players[i].y, PlayersString[i]);
+                        System.out.println(Players[i].x + " " + Players[i].y + " " + PlayersString[i]);
+                        Spel.checkforhousetoloot(Players[i].x,Players[i].y, chance,Players[i],weapon,SC);
+
+                        break;
+                    case 3:
+                        Spel.deletePlayer(Players[i].x, Players[i].y, PlayersString[i]);
+                        Players[i].back();
+                        Spel.checkforbattle(Players[i].x, Players[i].y, Players[i], Players);
+                        Spel.movePlayers(Players[i].x, Players[i].y, PlayersString[i]);
+                        Spel.checkforhousetoloot(Players[i].x,Players[i].y, chance,Players[i],weapon,SC);
+
+                        break;
+                    case 4:
+                        Spel.deletePlayer(Players[i].x, Players[i].y, PlayersString[i]);
+                        Players[i].left();
+                        Spel.checkforbattle(Players[i].x, Players[i].y, Players[i], Players);
+                        Spel.movePlayers(Players[i].x, Players[i].y, PlayersString[i]);
+                        System.out.println(Players[i].x + " " + Players[i].y + " " + PlayersString[i]);
+                        Spel.checkforhousetoloot(Players[i].x,Players[i].y, chance,Players[i],weapon,SC);
+
+
+                        break;
+
+                }
+                 PlayersAlive = Spel.checkforplayersalive(Players);
+
+            }
+
+            for (int i = 0; i<= map.length; i++){
+
+                if (i >= 10){
+                    System.out.print(" "+i);
+
+                }
+                else {
+                    System.out.print("  "+i);
+                }
+                if (i == map.length){
+                    System.out.println();
+                }
+            }
+            for (int i = 0; i < map.length; i++) {
+
+                System.out.print(i);
+                System.out.println(Arrays.toString(map[i]));
+            }        }
     }
-        for (int i = 0; i < map.length; i++) {
-            System.out.println(Arrays.toString(map[i]));
-        }
     }
-}
+
